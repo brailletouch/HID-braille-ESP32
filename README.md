@@ -22,6 +22,62 @@ https://usb.org/sites/default/files/hutrr78_-_creation_of_a_braille_display_usag
 
 https://github.com/nvaccess/nvda/blob/00cd67b737bc5b23a6f5e31cf28110b64ebf2fee/devDocs/hidBrailleTechnicalNotes.md
 
+NVDA braille framework https://github.com/nvaccess/nvda/wiki/Braille-framework
+
+adding support for a Braille display in NVDA (soon no longer support use for reference only) https://github.com/nvaccess/nvda/wiki/AddingSupportForABrailleDisplay
+
+HID Usage Tables - Universal Serial Bus (USB) https://usb.org/sites/default/files/hut1_2.pdf
+
+
+TECHNICAL REPORT brilletouch
+
+Distribution control on brailletouch device 40
+
+brailletouch 40 contains the same key layout as Focus 40 Blue - Freedom Scientific, only with an additional keyboard corresponding to the equivalent of arrows on the navigation keyboard (left, right, up, down, enter, tab, uppercase + tab)
+
+
+
+Left side of the device
+
+⦁ (1) On / off button: first control located by sliding it from front to back.
+⦁ (2) Micro USB port: located behind the on / off button.
+
+
+top of device
+
+⦁ (3) Braille cell: located towards the right front of the device.
+⦁ (3A) Virtual braille cells: located towards the front center of the device.
+⦁ (4) Cursor scroll button: located above the braille cell.
+⦁ (5) Double navigation buttons: located on both sides of the braille cell.
+⦁ (6) Buttons to change the navigation mode, located above the dual navigation buttons.
+⦁ (7) Braille keyboard: located above the virtual braille cells. The order of the dots on the braille keyboard is as follows: dots 1, 2, 3, 7 on the left and dots 4, 5, 6, 8 on the right.
+⦁ (8) Space bar: located in the center, below the Braille keyboard.
+⦁ (9A) Scroll left to the left side of the space bar.
+⦁ (9B) Scroll to the right. to the right side of the space bar.
+⦁ (10) navigation keyboard located on the left of the device ((10A) left, (10B) right, (10C) up, (10D) down, (10E) enter, (10F) tab, (10G) uppercase + tab )
+
+Front of device
+
+The following controls are located on the front of the device, from left to right:
+⦁ (11A) Scroll left (pan left) button.
+⦁ (12A) Left bar.
+⦁ (13A) Left selection button.
+⦁ (13B) Right selection button.
+⦁ (12B) Right bar.
+⦁ (11B) Scroll right (pan right) button.
+
+Observations
+
+Construction: Brailletouch 40, it should be a lightweight device, but with a strong and solid construction.
+
+Braille cells: The projection (height) of the braille dots should be appropriate and easy to differentiate with the fingers. This will result in quick identification of point combinations, making it easier to read over extended periods. The thickness and consistency of the braille cell must be of good quality.
+
+Braille keyboard: The braille keyboard layout (Perkins style) and the additional controls on the brailleouch 40 should be comfortable to use and sized appropriately. The dbe braille keyboard design is ergonomic and intuitive, making it easy to type over long periods of time. The keyboard layout and its use should be the most comfortable.
+
+Controls: The function of the controls on the braille touch screen depends on the screen reader or application used to operate the device. The scroll buttons, navigation, bars and selectors, among other controls, allow you to navigate through the different platforms and perform various functions. Through these controls it is possible to move between the applications of an iPhone, open the Microsoft Word options menu in Windows, open the context menu on an Android phone, among other functions.
+
+Battery life: One of the most impressive features bailletouch must have is its battery life, both in continuous use time and in standby time.
+
 
 Español
 
@@ -47,6 +103,9 @@ Marco braille NVDA https://github.com/nvaccess/nvda/wiki/Braille-framework
 adición de soporte para una pantalla Braille  en NVDA (pronto ya no tendra soporte usar solo como referencia) https://github.com/nvaccess/nvda/wiki/AddingSupportForABrailleDisplay
 
 HID Usage Tables - Universal Serial Bus (USB) https://usb.org/sites/default/files/hut1_2.pdf
+
+
+
 
 INFORME TÉCNICO brilletouch
 
