@@ -15,6 +15,12 @@ Please try to compile and update the sample to ensure a successful development s
 
 And then you need to change the HID descriptor to the HID braille documentation example.
 
+Ensures that the Hid device is truly a Braille display by verifying that the HIDP_CAPS.UsagePage of the HID device's top-level collection is set to HID_USAGE_PAGE_BRAILLE (0x41).
+
+This document refers to how NVDA reads the HID braille structure https://github.com/nvaccess/nvda/pull/12523
+
+
+
 
 here are the braille HID references
 
@@ -90,6 +96,16 @@ Intente compilar y actualizar la muestra para garantizar una configuración de d
 (introducción a ESP32: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
 
 Y luego debe cambiar el descriptor HID al ejemplo de documentación braille HID.
+
+Asegura que el dispositivo Hid sea verdaderamente una pantalla Braille al verificar que el HIDP_CAPS.UsagePagede la colección de nivel superior del dispositivo HID esté configurado en HID_USAGE_PAGE_BRAILLE( 0x41).
+
+este documeto hace refrecia a como lee NVDA la estructura HID braille https://github.com/nvaccess/nvda/pull/12523
+
+
+
+the Braille HID specification.
+
+
 
 
 aquí están las referencias HID en braille
