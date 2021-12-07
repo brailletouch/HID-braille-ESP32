@@ -5,7 +5,7 @@ This repository is for developing a hid braille library for ESP32 /  Este reposi
 
 English
 
-OutputReport and REPORT_MAP structures need to be considerably adapted. The linked PDF seems to contain the report map. So that's a good starting point for adapting the REPORT_MAP.
+In order to make it work for a braille display, the InputReport, OutputReport and REPORT_MAP structures need to be considerably adapted. The linked PDF seems to contain the report map. So that's a good starting point for adapting the REPORT_MAP.
 
 The report map describes the data structures of the input and output report. So you will need to understand the details of this complex HID construct in order to figure out how the InputReport and OutputReport look like.
 
@@ -91,9 +91,9 @@ Battery life: One of the most impressive features bailletouch must have is its b
 
 Español
 
-Para que funcione para una pantalla braille, las estructuras InputReport, OutputReport y REPORT_MAP deben adaptarse considerablemente. El PDF vinculado parece contener el mapa del informe. Así que ese es un buen punto de partida para adaptar REPORT_MAP.
+Para que funcione para una pantalla braille, las InputReport , OutputReport y REPORT_MAP deben adaptarse considerablemente. El PDF vinculado parece contener el mapa del informe. Así que ese es un buen punto de partida para adaptar REPORT_MAP .
 
-El mapa de informes describe las estructuras de datos del informe de entrada y salida. Por lo tanto, deberá comprender los detalles de esta compleja construcción HID para descubrir cómo se ven InputReport y OutputReport.
+El mapa de informes describe las estructuras de datos del informe de entrada y salida. Por lo tanto, deberá comprender los detalles de esta compleja construcción HID para descubrir cómo se InputReport y OutputReport .
 
 
 El ejemplo inicial puede ser Espressif:
