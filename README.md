@@ -182,6 +182,313 @@ Controles: La función de los controles de la patalla braille brailletouch, est�
 Duración de la batería: Una de las características que más impresionan de que debe tener bailletouch es la duración de su batería, tanto en tiempo de uso continuo como también en el tiempo de espera (standby).
 
 
+# Novedades en investigacion / Research news
+
+Encontré esta biblioteca para esp32 en arduino / I found this library for esp32 on arduino https://github.com/T-vK/ESP32-BLE-Keyboard/blob/master/BleKeyboard.cpp
+
+Y este otro / And this other https://github.com/T-vK/ESP32-BLE-Mouse/blob/master/BleMouse.cpp 
+
+Creo que modificándolo podría adaptarse al braille HID se encarga de hacer automáticamente la tabla de descripción para el controlador solo tienes que cargar la lista del braille hid y luego una en el el código agrega las teclas o funciones que necesita usar
+
+I think that modifying it could adapt to the braille HID takes care of automatically making the description table for the controller you just have to load the list of the hid braille and then one in the code adds the keys or functions that you need to use
+
+las bibliotecas que están llamadas para hacer todo el trabajo son / the libraries that are called to do all the work are "BLEHIDDevice" y "HIDTypes.h" en https://github.com/espressif/arduino-esp32/blob/master/libraries/BLE/src/
+
+
+```
+// BleKeyboard.cpp
+
+#include "BleKeyboard.h"     // modify by Blebraille.h
+
+static const uint8_t _hidReportDescriptor[] = {
+  USAGE_PAGE(1),      0x01,   // USAGE_PAGE (Generic Desktop Ctrls)  // modify by HID braille   USAGE_PAGE(1),      0x41, 
+  USAGE(1),           0x06,          // USAGE (Keyboard)  // modify by   USAGE(1),           0x01,  Braille Display
+  COLLECTION(1),      0x01,          // COLLECTION (Application)
+  
+};
+ ..............
+```
+Y / and
+
+```
+
+// BleMouse.cpp
+
+static const uint8_t _hidReportDescriptor[] = {
+  USAGE_PAGE(1),       0x01, // USAGE_PAGE (Generic Desktop)   //  modify by HID braille     USAGE_PAGE(1),      0x41,
+  USAGE(1),            0x02, // USAGE (Mouse)  // modify by  el HID  USAGE(1),           0x01,  Braille Display
+  COLLECTION(1),       0x01, // COLLECTION (Application)
+  USAGE(1),            0x01, //   USAGE (Pointer)
+  COLLECTION(1),       0x00, //   COLLECTION (Physical)
+  // ------------------------------------------------- Buttons (Left, Right, Middle, Back, Forward)
+  // USAGE_PAGE(1),       0x09, //     USAGE_PAGE (Button)
+  // USAGE_MINIMUM(1),    0x01, //     USAGE_MINIMUM (Button 1)
+  // USAGE_MAXIMUM(1),    0x05, //     USAGE_MAXIMUM (Button 5)
+  // LOGICAL_MINIMUM(1),  0x00, //     LOGICAL_MINIMUM (0)
+  // LOGICAL_MAXIMUM(1),  0x01, //     LOGICAL_MAXIMUM (1)
+  // REPORT_SIZE(1),      0x01, //     REPORT_SIZE (1)
+  // REPORT_COUNT(1),     0x05, //     REPORT_COUNT (5)
+  // HIDINPUT(1),         0x02, //     INPUT (Data, Variable, Absolute) ;5 button bits
+  // ------------------------------------------------- Padding
+  // REPORT_SIZE(1),      0x03, //     REPORT_SIZE (3)
+  // REPORT_COUNT(1),     0x01, //     REPORT_COUNT (1)
+  // HIDINPUT(1),         0x03, //     INPUT (Constant, Variable, Absolute) ;3 bit padding
+  // ------------------------------------------------- X/Y position, Wheel
+  // USAGE_PAGE(1),       0x01, //     USAGE_PAGE (Generic Desktop)
+  // USAGE(1),            0x30, //     USAGE (X)
+  // USAGE(1),            0x31, //     USAGE (Y)
+ // USAGE(1),            0x38, //     USAGE (Wheel)
+ // LOGICAL_MINIMUM(1),  0x81, //     LOGICAL_MINIMUM (-127)
+  // LOGICAL_MAXIMUM(1),  0x7f, //     LOGICAL_MAXIMUM (127)
+ // REPORT_SIZE(1),      0x08, //     REPORT_SIZE (8)
+ // REPORT_COUNT(1),     0x03, //     REPORT_COUNT (3)
+ // HIDINPUT(1),         0x06, //     INPUT (Data, Variable, Relative) ;3 bytes (X,Y,Wheel)
+  // ------------------------------------------------- Horizontal wheel
+  // USAGE_PAGE(1),       0x0c, //     USAGE PAGE (Consumer Devices)
+ //  USAGE(2),      0x38, 0x02, //     USAGE (AC Pan)
+  // LOGICAL_MINIMUM(1),  0x81, //     LOGICAL_MINIMUM (-127)
+  // LOGICAL_MAXIMUM(1),  0x7f, //     LOGICAL_MAXIMUM (127)
+  // REPORT_SIZE(1),      0x08, //     REPORT_SIZE (8)
+  // REPORT_COUNT(1),     0x01, //     REPORT_COUNT (1)
+  // HIDINPUT(1),         0x06, //     INPUT (Data, Var, Rel)
+  // END_COLLECTION(0),         //   END_COLLECTION
+  // END_COLLECTION(0)          // END_COLLECTION
+// };
+..................
+
+```
+
+
+Esos ejemplos podrían ser reemplazados por el ejemplo braille HID.
+Those examples could be replaced by the HID braille example
+
+
+
+```
+//	Braille Display Page (0x41)
+
+// Sample Report Descriptor ‐ Braille Display
+‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐
+    0x05, 0x41,        // Usage Page (Braille)
+    0x09, 0x01,        // USAGE (Braille Display)
+    0xA1, 0x01,        // Collection (Application)
+    0x1A, 0x01, 0x02,  //   Usage Minimum (Braille Keyboard Dot 1)
+    0x2A, 0x08, 0x02,  //   Usage Maximum (Braille Keyboard Dot 8)
+    0x75, 0x01,        //   Report Size (1)
+    0x95, 0x08,        //   Report Count (8)
+    0x15, 0x00,        //   Logical Minimum (0)
+    0x25, 0x01,        //   Logical Maximum (1)
+    0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No
+Null Position)
+    0x05, 0x41,        //   Usage Page (Braille)
+    0x0A, 0x0A, 0x02,  //   Usage (Braille Keyboard Left Space)
+    0x0A, 0x0B, 0x02,  //   Usage (Braille Keyboard Right Space)
+    0x0A, 0x10, 0x02,  //   Usage (Braille Joystick Center)
+    0x0A, 0x11, 0x02,  //   Usage (Braille Joystick Up)
+    0x0A, 0x12, 0x02,  //   Usage (Braille Joystick Down)
+    0x0A, 0x13, 0x02,  //   Usage (Braille Joystick Left)
+    0x0A, 0x14, 0x02,  //   Usage (Braille Joystick Right)
+    0x75, 0x01,        //   Report Size (1)
+    0x95, 0x07,        //   Report Count (7)
+    0x15, 0x00,        //   Logical Minimum (0)
+    0x25, 0x01,        //   Logical Maximum (1)
+    0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No
+Null Position)
+    0x75, 0x01,        //   Report Size (1)
+    0x95, 0x01,        //   Report Count (1)
+    0x81, 0x03,        //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No
+Null Position)
+    0x0A, 0x0D, 0x02,  //   Usage (Braille Left Controls)
+    0xA1, 0x02,        //   Collection (Logical)
+    0x05, 0x09,        //     Usage Page (Button)
+    0x19, 0x01,        //     Usage Minimum (Button 1)
+    0x29, 0x03,        //     Usage Maximum (Button 3)
+    0x75, 0x01,        //     Report Size (1)
+    0x95, 0x03,        //     Report Count (3)
+    0x15, 0x00,        //     Logical Minimum (0)
+    0x25, 0x01,        //     Logical Maximum (1)
+    0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No
+Null Position)
+    0xC0,              //   End Collection
+    0x05, 0x41,        //   Usage Page (Braille)
+    0x0A, 0x0E, 0x02,  //   Usage (Braille Right Controls)
+    0xA1, 0x02,        //   Collection (Logical)
+    0x05, 0x09,        //     Usage Page (Button)
+    0x19, 0x01,        //     Usage Minimum (Button 1)
+    0x29, 0x03,        //     Usage Maximum (Button 3)
+    0x75, 0x01,        //     Report Size (1)
+    0x95, 0x03,        //     Report Count (3)
+    0x15, 0x00,        //     Logical Minimum (0)
+    0x25, 0x01,        //     Logical Maximum (1)
+    0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No
+Null Position)
+    0xC0,              //   End Collection
+    0x75, 0x02,        //     Report Size (2)
+    0x95, 0x01,        //     Report Count (1)
+    0x81, 0x03,        //     Input (Const,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position) //2 bit pad
+    0x05, 0x41,        //   Usage Page (Braille)
+    0x0A, 0x0C, 0x02,  //   Usage (Braille Face Controls)
+    0xA1, 0x02,        //   Collection (Logical)
+    0x05, 0x09,        //     Usage Page (Button)
+    0x19, 0x01,        //     Usage Minimum (Button 1)
+    0x29, 0x03,        //     Usage Maximum (Button 4)
+    0x75, 0x01,        //     Report Size (1)
+    0x95, 0x04,        //     Report Count (4)
+    0x15, 0x00,        //     Logical Minimum (0)
+    0x25, 0x01,        //     Logical Maximum (1)
+    0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No
+Null Position)
+    0x75, 0x04,        //     Report Size (4)
+    0x95, 0x01,        //     Report Count (1)
+    0x81, 0x03,        //     Input (Const,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position)
+    0xC0,              //   End Collection
+    
+    0x05, 0x41,        //   Usage Page (Braille)
+    0x09, 0x02,        //   USAGE (Braille Row)
+    0xA1, 0x02,        //   Collection (Logical)
+    0x09, 0x02,        //     Usage (8 Dot Braille Cell)
+    0x15, 0x00,        //     Logical Minimum (0)
+    0x26, 0xFF, 0x00,  //     Logical Maximum (255)
+    0x75, 0x08,        //     Report Size (8)
+    0x95, 0x14,        //     Report Count (20)
+    0x91, 0x03,        //     Output (Const,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position,Non‐volatile)
+    
+    0x09, 0xFA,        //     USAGE (Router Set 1)
+    0xA1, 0x02,        //     Collection (Logical)
+    0x0A, 0x00, 0x01,  //       Usage (Router Key)
+    0x15, 0x00,        //       Logical Minimum (0)
+    0x25, 0x01,        //       Logical Maximum (1)
+    0x75, 0x01,        //       Report Size (1)
+    0x95, 0x14,        //       Report Count (20)
+    0x81, 0x02,        //       Input (Data,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position)
+    0x75, 0x04,        //       Report Size (4)
+    0x95, 0x01,        //       Report Count (1)
+    0x81, 0x03,        //       Input (Const,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position) //4‐bit pad
+    0xC0,              //     End Collection
+    0xC0,              //   End Collection
+    0xC0,              // End Collection
+
+
+```
+
+Es solo para ordenarlo como biblioteca para que luego en el código puedas llamar a la biblioteca y pasar los parámetros que se necesiten como el número de celdas braille, botones, etc.
+algo como esto
+It is only to order it as a library so that later in the code you can call the library and pass the parameters that are needed such as the number of braille cells, buttons, etc.
+
+something like that
+
+
+
+
+```
+
+#include < Blebraille..h>
+
+ Blebraille  Blebraille(40); // para definir una pantalla de 40 caracteres
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Starting BLE work!");
+  Blebraille.begin();
+}
+
+void loop() {
+  if(Blebraille.isConnected()) {
+    Serial.println("Sending 'Hello world'...");
+Blebraille.print("Hello world");
+if (Blebraille.available()) { // Si hay dato en el enviado por el lector de pantalla
+             dato = Blebraille.read(); // Lo lee HID ble
+              }
+
+
+    delay(1000);
+
+    Serial.println("Sending Enter key...");
+    Blebraille.write(BRAILLE_KEYBOARD_DOT_1);
+
+    delay(1000);
+
+   
+  }
+
+  Serial.println("Waiting 5 seconds...");
+  delay(5000);
+}
+
+	
+```
+	
+Esto es lo que he podido entender hasta ahora.
+
+Entiendo que con 0x05 debo pasar cuántas celdas braille tiene mi pantalla, pero no sé cómo hacerlo.
+
+de acuerdo con el código hid nvda source brailleDisplayDrivers hid.py se define así  
+  
+This is what I have been able to understand so far
+
+I understand that with 0x05 I must pass how many braille cells my screen has but I don't know how to do that
+
+according to the hid code nvda source brailleDisplayDrivers hid.py is defined like this
+
+
+
+```
+class BraillePageUsageID(enum.IntEnum):
+	UNDEFINED = 0
+	BRAILLE_DISPLAY = 0x1
+	BRAILLE_ROW = 0x2
+	EIGHT_DOT_BRAILLE_CELL = 0x3
+	SIX_DOT_BRAILLE_CELL = 0x4
+	NUMBER_OF_BRAILLE_CELLS = 0x5
+	SCREEN_READER_CONTROL = 0x6
+	SCREEN_READER_IDENTIFIER = 0x7
+	ROUTER_SET_1 = 0xFA
+	ROUTER_SET_2 = 0xFB
+	ROUTER_SET_3 = 0xFC
+	ROUTER_KEY = 0x100
+	ROW_ROUTER_KEY = 0x101
+	BRAILLE_BUTTONS = 0x200
+	BRAILLE_KEYBOARD_DOT_1 = 0x201
+	BRAILLE_KEYBOARD_DOT_2 = 0x202
+	BRAILLE_KEYBOARD_DOT_3 = 0x203
+	BRAILLE_KEYBOARD_DOT_4 = 0x204
+	BRAILLE_KEYBOARD_DOT_5 = 0x205
+	BRAILLE_KEYBOARD_DOT_6 = 0x206
+	BRAILLE_KEYBOARD_DOT_7 = 0x207
+	BRAILLE_KEYBOARD_DOT_8 = 0x208
+	BRAILLE_KEYBOARD_SPACE = 0x209
+	BRAILLE_KEYBOARD_LEFT_SPACE = 0x20A
+	BRAILLE_KEYBOARD_RIGHT_SPACE = 0x20B
+	BRAILLE_FACE_CONTROLS = 0x20C
+	BRAILLE_LEFT_CONTROLS = 0x20D
+	BRAILLE_RIGHT_CONTROLS = 0x20E
+	BRAILLE_TOP_CONTROLS = 0x20F
+	BRAILLE_JOYSTICK_CENTER = 0x210
+	BRAILLE_JOYSTICK_UP = 0x211
+	BRAILLE_JOYSTICK_DOWN = 0x212
+	BRAILLE_JOYSTICK_LEFT = 0x213
+	BRAILLE_JOYSTICK_RIGHT = 0x214
+	BRAILLE_DPAD_CENTER = 0x215
+	BRAILLE_DPAD_UP = 0x216
+	BRAILLE_DPAD_DOWN = 0x217
+	BRAILLE_DPAD_LEFT = 0x218
+	BRAILLE_DPAD_RIGHT = 0x219
+	BRAILLE_PAN_LEFT = 0x21A
+	BRAILLE_PAN_RIGHT = 0x21B
+	BRAILLE_ROCKER_UP = 0x21C
+	BRAILLE_ROCKER_DOWN = 0x21D
+	BRAILLE_ROCKER_PRESS = 0x21E
+
+```
+
+No sé si estoy en el camino correcto o estoy totalmente perdido, pero si alguien entiende y sabe cómo puedo continuar con esta estructura, sería bueno ayudar.
+I don't know if I'm on the right track or I'm totally lost, but if someone understands and knows how I can continue this structure, it would be good to help.
+
 
 
 
