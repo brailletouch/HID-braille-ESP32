@@ -1,42 +1,76 @@
 # HID-braille-ESP32
-to develop HID braille library for ESP32 for brailletouch / para desarrollar librería HID braille para ESP32 para brailletouch
+English:
 
-This repository is for developing a hid braille library for ESP32 /  Este repositorio es para desarolar una biblioteca braille hid para ESP32
+"arrange this for me as well. Remember, in English and Spanish: 'to develop HID braille library for ESP32 for brailletouch / para desarrollar librería HID braille para ESP32 para brailletouch'
 
-English
+This repository is for developing a HID braille library for ESP32 / Este repositorio es para desarollar una biblioteca braille HID para ESP32."
 
-In order to make it work for a braille display, the InputReport, OutputReport and REPORT_MAP structures need to be considerably adapted. The linked PDF seems to contain the report map. So that's a good starting point for adapting the REPORT_MAP.
+In order to make the library work for a Braille display, the InputReport, OutputReport, and REPORT_MAP structures need to be considerably adapted. The linked PDF seems to contain the report map, so that's a good starting point for adapting the REPORT_MAP.
 
-The report map describes the data structures of the input and output report. So you will need to understand the details of this complex HID construct in order to figure out how the InputReport and OutputReport look like.
+The report map describes the data structures of the input and output reports. So you will need to understand the details of this complex HID construct to figure out how the InputReport and OutputReport look.
 
-The initial example can be Espressif:
-https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/ble/ble_hid_device_demo
-In it we have everything you need to get started on a mouse / keyboard project.
+Spanish:
+
+Para que la biblioteca funcione para una pantalla Braille, las estructuras InputReport, OutputReport y REPORT_MAP necesitan ser adaptadas considerablemente. El PDF vinculado parece contener el mapa de informe, por lo que ese es un buen punto de partida para adaptar el REPORT_MAP.
+
+El mapa de informe describe las estructuras de datos de los informes de entrada y salida. Por lo tanto, deberá comprender los detalles de esta construcción HID compleja para descubrir cómo se ven el InputReport y el OutputReport.
+
+English:
+
+The initial example can be found in Espressif: https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/ble/ble_hid_device_demo. It contains everything you need to get started on a mouse/keyboard project.
 
 Please try to compile and update the sample to ensure a successful development setup.
 
-(introduction to ESP32: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
+(Introduction to ESP32: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
 
 And then you need to change the HID descriptor to the HID braille documentation example.
 
-Ensures that the Hid device is truly a Braille display by verifying that the HIDP_CAPS.UsagePage of the HID device's top-level collection is set to HID_USAGE_PAGE_BRAILLE (0x41).
+Spanish:
 
-This document refers to how NVDA reads the HID braille structure https://github.com/nvaccess/nvda/pull/12523
+El ejemplo inicial se puede encontrar en Espressif: https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/ble/ble_hid_device_demo. Contiene todo lo que necesita para comenzar un proyecto de mouse/teclado.
 
+Por favor, intente compilar y actualizar la muestra para garantizar una configuración de desarrollo exitosa.
 
+(Introducción al ESP32: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
 
+Y luego necesita cambiar el descriptor HID al ejemplo de documentación HID braille.
 
-here are the braille HID references
+English:
+
+Ensure that the HID device is truly a Braille display by verifying that the HIDP_CAPS.UsagePage of the HID device's top-level collection is set to HID_USAGE_PAGE_BRAILLE (0x41).
+
+This document refers to how NVDA reads the HID braille structure: nvaccess/nvda#12523.
+
+Here are the Braille HID references:
 
 https://usb.org/sites/default/files/hutrr78_-_creation_of_a_braille_display_usage_page_0.pdf
 
 https://github.com/nvaccess/nvda/blob/00cd67b737bc5b23a6f5e31cf28110b64ebf2fee/devDocs/hidBrailleTechnicalNotes.md
 
-NVDA braille framework https://github.com/nvaccess/nvda/wiki/Braille-framework
+NVDA braille framework: https://github.com/nvaccess/nvda/wiki/Braille-framework
 
-adding support for a Braille display in NVDA (soon no longer support use for reference only) https://github.com/nvaccess/nvda/wiki/AddingSupportForABrailleDisplay
+Adding support for a Braille display in NVDA (soon no longer supported, use for reference only): https://github.com/nvaccess/nvda/wiki/AddingSupportForABrailleDisplay
 
 HID Usage Tables - Universal Serial Bus (USB) https://usb.org/sites/default/files/hut1_2.pdf
+
+Spanish:
+
+Asegúrate de que el dispositivo HID sea realmente un display braille verificando que el HIDP_CAPS.UsagePage de la colección de nivel superior del dispositivo HID esté establecido en HID_USAGE_PAGE_BRAILLE (0x41).
+
+Este documento hace referencia a cómo NVDA lee la estructura HID braille: nvaccess/nvda#12523.
+
+Aquí están las referencias HID Braille:
+
+https://usb.org/sites/default/files/hutrr78_-_creation_of_a_braille_display_usage_page_0.pdf
+
+https://github.com/nvaccess/nvda/blob/00cd67b737bc5b23a6f5e31cf28110b64ebf2fee/devDocs/hidBrailleTechnicalNotes.md
+
+Marco braille de NVDA: https://github.com/nvaccess/nvda/wiki/Braille-framework
+
+Agregar soporte para un display braille en NVDA (pronto no será compatible, solo para referencia): https://github.com/nvaccess/nvda/wiki/AddingSupportForABrailleDisplay
+
+Tablas de uso de HID - Universal Serial Bus (USB) https://usb.org/sites/default/files/hut1_2.pdf
+
 
 
 TECHNICAL REPORT brilletouch
